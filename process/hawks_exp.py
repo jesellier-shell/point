@@ -1,4 +1,5 @@
 import numpy as np
+import warnings
 
 from point.process.base_process import  PointProcessBase
 from point.algo.simulation import OgataThinningAlgo
@@ -8,6 +9,13 @@ class HawksExponentialDecay(PointProcessBase) :
 
     def __init__(self, background_intensity, beta, alpha):
         super().__init__()
+        
+        if (background_intensity <= 0) or (beta <= 0) or (alpha <= 0):
+              raise ValueError("exp.hawks parameters must be strictly poistive")
+              
+        if (alpha/beta) > 1 :
+            warnings.warn('exp.hawks has explosive parametrization : [alpha/beta]>1', UserWarning)
+
         self.background_intensity = background_intensity
         self.alpha = alpha
         self.beta = beta

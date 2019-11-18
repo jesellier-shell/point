@@ -22,7 +22,7 @@ class PointProcessBase(metaclass=abc.ABCMeta) :
     def reset(self):
         self.samples = []
         
-    def plot(self, i = 0, print_hazard = False):
+    def plot(self, i = 0, print_hazard = False, fm = 'k|'):
         
         if(i > len(self.samples)):
             print("out of bound error")
@@ -32,7 +32,8 @@ class PointProcessBase(metaclass=abc.ABCMeta) :
         expiry = self.samples[i].expiry
         grid =  np.arange(0.0, expiry, 0.02)
         
-        plt.plot(self.samples[i].points, [0] * len(self.samples[i].points), 'ro')
+        plt.plot(self.samples[i].points, [0] * len(self.samples[i].points),
+                 fm, ms = 12, mew = 2.5)
 
         if print_hazard :
             plt.plot(grid, [self.hazard(i) for i in grid], 'b', lw = 0.5)
